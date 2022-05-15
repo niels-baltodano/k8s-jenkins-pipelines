@@ -14,8 +14,6 @@ pipeline{
                 script {
                     container('jnlp') {
                         projectInfo = getProjectInfo(URL_PROJECTS_YAML_RAW)
-                        projectType = utils.getJobNameType().get('projectType')
-                        projectTecType = utils.getJobNameType().get('projectTecType')
                         println projectInfo
                     }
                 }
