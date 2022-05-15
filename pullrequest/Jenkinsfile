@@ -1,0 +1,25 @@
+@Library('k8s-jenkins-sharedLibraries') _
+pipeline{
+    agent {
+        kubernetes{
+            cloud 'kubernetes'
+            namespace 'pe-devops'
+            defaultContainer 'jnlp'
+            yaml getPodTemplatePR()
+        }
+    }
+    stages {
+        stage('Get-Data') {
+            steps {
+                script {
+                    container('jnlp') {
+                        projectInfo = getProjectInfo(URL_PROJECTS_YAML_RAW)
+                        projectType = utils.getJobNameType().get('projectType')
+                        projectTecType = utils.getJobNameType().get('projectTecType')
+                        println projectInfo
+                    }
+                }
+            }
+        }
+    }
+}

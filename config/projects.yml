@@ -1,0 +1,6 @@
+backend:
+  java-demo:
+    ssh_clone_url: git@github.com:niels-baltodano/java-demo.git
+frontend:
+  node-demo:
+    ssh_clone_url: git@github.com:niels-baltodano/node-demo.git
