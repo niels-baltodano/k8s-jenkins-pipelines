@@ -17,6 +17,7 @@ pipeline{
                 script {
                     container('jnlp') {
                         projectInfo = utils.getProjectInfo(URL_PROJECTS_YAML_RAW)
+                        println projectInfo
                     }
                 }
             }
@@ -24,7 +25,9 @@ pipeline{
         stage('Fetch Code') {
             steps {
                 script {
-                    git.fetchCode(projectInfo.get('ssh_clone_url'), params.BRANCH)
+                    container('jnlp'){
+                        git.fetchCode(projectInfo.get('ssh_clone_url'), params.BRANCH)
+                    }
                 }
             }
         }
