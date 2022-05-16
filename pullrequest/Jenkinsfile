@@ -52,7 +52,7 @@ pipeline{
             steps {
                 script {
                     container('kaniko') {
-                        utils.pushKaniko()
+                        utils.pushKaniko(baseName, tagName)
                     }
                 }
             }
