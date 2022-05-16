@@ -13,7 +13,7 @@ pipeline{
             steps {
                 script {
                     container('jnlp') {
-                        projectInfo = getProjectInfo(URL_PROJECTS_YAML_RAW)
+                        projectInfo = utils.getProjectInfo(URL_PROJECTS_YAML_RAW)
                         println projectInfo
                     }
                 }
