@@ -8,6 +8,14 @@ pipeline{
             yaml getPodTemplatePR()
         }
     }
+    options {
+        timeout(activity: true, time: 2, unit: 'HOURS')
+        parallelsAlwaysFailFast()
+        disableConcurrentBuilds()
+        ansiColor(ANSICOLOR)
+        ansiColorStatus(ANSICOLOR)
+        ansiColorLabel(ANSICOLOR)
+    }
     parameters {
         string(name: 'BRANCH', defaultValue: 'master', description: 'Git project source branch', trim: true)
     }
