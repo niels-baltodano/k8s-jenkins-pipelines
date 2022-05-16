@@ -63,5 +63,17 @@ pipeline{
                 }
             }
         }
+        stage('Deploy') {
+            steps {
+                script {
+                    container('jnlp') {
+                        build(wait: true, job: 'Tools/k8s-deployment', parameters: [
+                                    string(name: 'APP_NAME', value: appName ), 
+                                    string(name: 'FINAL_TAG', value: "${baseName}:${tagName}" )
+                                    ])
+                    }
+                }
+            }
+        }
     }
 }

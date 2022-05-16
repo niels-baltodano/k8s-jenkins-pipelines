@@ -26,7 +26,7 @@ pipeline{
                         utils.fetchCode(env.SSH_CD_CLONE_URL, 'master')
                         path_name_snz = params.APP_NAME.replace('_', '-')
                         path_name_snz = "pe-${path_name_snz}"
-                        path_manifests = "apps/pe-${path_name_snz}"
+                        path_manifests = "apps/${path_name_snz}"
                         println """
                         🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳
                             PATH_MANIFESTS ::::: ${path_manifests}
