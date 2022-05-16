@@ -27,7 +27,7 @@ pipeline{
                 script {
                     container('jnlp'){
                         utils.fetchCode(projectInfo.get('ssh_clone_url'), params.BRANCH)
-                        appName = sh(label:"", script:"basename ${projectInfo.get('ssh_clone_url')} .git").trim()
+                        appName = sh(label:"appName", script:"basename ${projectInfo.get('ssh_clone_url')} .git", returnStdout: true).trim()
                         baseName ="niels58/${appName}"
                         tagName = "pe-${params.BRANCH}-${BUILD_NUMBER}"
                         println """
