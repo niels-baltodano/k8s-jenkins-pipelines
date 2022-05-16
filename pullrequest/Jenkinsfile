@@ -27,6 +27,14 @@ pipeline{
                 script {
                     container('jnlp'){
                         utils.fetchCode(projectInfo.get('ssh_clone_url'), params.BRANCH)
+                        appName = sh(label:"", script:"basename ${projectInfo.get('app_name')} .git").trim()
+                        baseName ="niels58/${projectInfo.get('app_name')}"
+                        tagName = "pe-${params.BRANCH}-${BUILD_NUMBER}"
+                        println """
+                        APP_NAME :::: ${appName}
+                        BASE_NAME :::: ${baseName}
+                        TAG_NAME :::: ${tagName}
+                        """
                     }
                 }
             }
@@ -36,6 +44,15 @@ pipeline{
                 script {
                     container('maven') {
                         utils.build(projectInfo.get('cmd_build'))
+                    }
+                }
+            }
+        }
+        stage('Push') {
+            steps {
+                script {
+                    container('kaniko') {
+                        utils.pushKaniko()
                     }
                 }
             }
