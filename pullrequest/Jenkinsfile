@@ -35,7 +35,7 @@ pipeline{
             steps {
                 script {
                     container('maven') {
-                        utils.build()
+                        utils.build(projectInfo.get('cmd_build'))
                     }
                 }
             }
