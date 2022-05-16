@@ -1,0 +1,54 @@
+@Library('k8s-jenkins-sharedLibraries') _
+pipeline{
+    agent {
+        kubernetes{
+            cloud 'kubernetes'
+            namespace 'pe-devops'
+            defaultContainer 'jnlp'
+            yaml getPodTemplateDeploy()
+        }
+    }
+    options {
+        timeout(activity: true, time: 2, unit: 'HOURS')
+        parallelsAlwaysFailFast()
+        disableConcurrentBuilds()
+        ansiColor(ANSICOLOR)
+    }
+    parameters {
+        string(name: 'APP_NAME', defaultValue: 'java-demo', description: 'APP a actualizar', trim: true)
+        string(name: 'FINAL_TAG', description: 'Tag de la imagen asociado release')
+    }
+    stages {
+        stage('Fetch Code APP') {
+            steps {
+                script {
+                    container('jnlp'){
+                        utils.fetchCode(env.SSH_CD_CLONE_URL, 'master')
+                        path_name_snz = params.APP_NAME.replace('_', '-')
+                        path_name_snz = "pe-${path_name_snz}"
+                        path_manifests = "apps/pe-${path_name_snz}"
+                        println """
+                        🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳
+                            PATH_MANIFESTS ::::: ${path_manifests}
+                            PATH_NAME_SNZ :::::: ${path_name_snz}
+                        🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳🐳
+                        """
+                        currentBuild.description = "🐳${params.APP_NAME} | ${path_name_snz}🐳"
+                    }
+                }
+            }
+        }
+        stage("Update Manifest with kubectl"){
+            steps{
+                script{
+                    container('kubectl'){
+                        utils.kubectlPatch(path_manifests, params.APP_NAME, params.FINAL_TAG)
+                    }
+                    container('jnlp'){
+                        utils.pushKubectlPatch(params.APP_NAME, "master", params.FINAL_TAG)
+                    }
+                }
+            }
+        }
+    }
+}
