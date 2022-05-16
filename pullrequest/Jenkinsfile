@@ -31,5 +31,14 @@ pipeline{
                 }
             }
         }
+        stage('Build') {
+            steps {
+                script {
+                    container('maven') {
+                        utils.build()
+                    }
+                }
+            }
+        }
     }
 }
