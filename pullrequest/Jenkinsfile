@@ -8,15 +8,23 @@ pipeline{
             yaml getPodTemplatePR()
         }
     }
+    parameters {
+        string(name: 'BRANCH', defaultValue: 'master', description: 'Git project source branch', trim: true)
+    }
     stages {
         stage('Get-Data') {
             steps {
                 script {
                     container('jnlp') {
-                        sh "ls -lha"
                         projectInfo = utils.getProjectInfo(URL_PROJECTS_YAML_RAW)
-                        println projectInfo
                     }
+                }
+            }
+        }
+        stage('Fetch Code') {
+            steps {
+                script {
+                    git.fetchCode(projectInfo.get('ssh_clone_url'), params.BRANCH)
                 }
             }
         }
