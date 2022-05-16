@@ -2,7 +2,7 @@ backend:
   java:
     java-demo:
       ssh_clone_url: 'git@github.com:niels-baltodano/java-demo.git'
-      cmd_build: 'mvn clean package'
+      cmd_build: 'mvn clean package -X'
 frontend:
   node:
     node-demo:
