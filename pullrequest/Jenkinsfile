@@ -2,10 +2,19 @@
 pipeline{
     agent {
         kubernetes{
-            cloud 'kubernetes'
-            namespace 'default'
-            defaultContainer 'jnlp'
-            yaml getPodTemplatePR()
+             showRawYaml false
+      yaml '''
+metadata:
+  labels:
+    some-label: some-label-value
+    class: KubernetesDeclarativeAgentTest
+spec:
+  containers:
+  - name: jnlp
+    env:
+    - name: CONTAINER_ENV_VAR
+      value: jnlp
+'''
         }
     }
     options {
