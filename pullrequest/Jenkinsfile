@@ -12,7 +12,6 @@ pipeline{
         timeout(activity: true, time: 2, unit: 'HOURS')
         parallelsAlwaysFailFast()
         disableConcurrentBuilds()
-        ansiColor(ANSICOLOR)
     }
     parameters {
         string(name: 'BRANCH', defaultValue: 'master', description: 'Git project source branch', trim: true)
