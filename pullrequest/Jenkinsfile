@@ -3,7 +3,7 @@ pipeline{
     agent {
         kubernetes{
             cloud 'kubernetes'
-            namespace 'pe-devops'
+            namespace 'default'
             defaultContainer 'jnlp'
             yaml getPodTemplatePR()
         }
