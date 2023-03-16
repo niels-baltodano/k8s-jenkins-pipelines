@@ -3,7 +3,7 @@ pipeline{
     agent {
         kubernetes{
             cloud 'kubernetes'
-            namespace 'pe-devops'
+            namespace 'default'
             defaultContainer 'jnlp'
             yaml getPodTemplateDeploy()
         }
@@ -12,7 +12,7 @@ pipeline{
         timeout(activity: true, time: 2, unit: 'HOURS')
         parallelsAlwaysFailFast()
         disableConcurrentBuilds()
-        ansiColor(ANSICOLOR)
+        //ansiColor(ANSICOLOR)
     }
     parameters {
         string(name: 'APP_NAME', defaultValue: 'java-demo', description: 'APP a actualizar', trim: true)
